@@ -1,0 +1,134 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:passenger.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\flight.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:flight.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:passenger.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\admin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:admin.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\queue.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:queue.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\file.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:file.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}|plane.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "main.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\main.c",
+              "RelativeDocumentMoniker": "main.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\main.c",
+              "RelativeToolTip": "main.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-05-30T03:23:39.988Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "queue.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\queue.c",
+              "RelativeDocumentMoniker": "queue.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\queue.c",
+              "RelativeToolTip": "queue.c",
+              "ViewState": "AgIAAC8BAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-05-30T06:23:16.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "passenger.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.c",
+              "RelativeDocumentMoniker": "passenger.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.c",
+              "RelativeToolTip": "passenger.c",
+              "ViewState": "AgIAAJMAAAAAAAAAAADwv5wAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-05-30T06:23:11.946Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "file.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\file.c",
+              "RelativeDocumentMoniker": "file.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\file.c",
+              "RelativeToolTip": "file.c",
+              "ViewState": "AgIAABYBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-05-30T06:23:04.304Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "admin.c",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\admin.c",
+              "RelativeDocumentMoniker": "admin.c",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\admin.c",
+              "RelativeToolTip": "admin.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-05-30T06:23:00.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "passenger.txt",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.txt",
+              "RelativeDocumentMoniker": "passenger.txt",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\passenger.txt",
+              "RelativeToolTip": "passenger.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-30T05:06:48.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "flight.txt",
+              "DocumentMoniker": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\flight.txt",
+              "RelativeDocumentMoniker": "flight.txt",
+              "ToolTip": "E:\\c\u8BED\u8A00\u7A0B\u5E8F\\plane\\plane\\flight.txt",
+              "RelativeToolTip": "flight.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-30T05:02:04.051Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
