@@ -1,8 +1,0 @@
-C:\Users\ASUS\Documents\car\plane\x64\Debug\flight.txt
-C:\Users\ASUS\Documents\car\plane\x64\Debug\passenger.txt
-C:\Users\ASUS\Documents\car\plane\x64\Debug\waitlist.txt
-C:\Users\ASUS\Documents\car\plane\x64\Debug\plane.exe
-E:\c语言程序\plane\plane\x64\Debug\flight.txt
-E:\c语言程序\plane\plane\x64\Debug\passenger.txt
-E:\c语言程序\plane\plane\x64\Debug\waitlist.txt
-E:\c语言程序\plane\plane\x64\Debug\plane.exe
