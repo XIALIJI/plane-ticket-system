@@ -114,7 +114,6 @@ void initQueue(void)
     fp = fopen(WAITLIST_FILE, "r");
     if (fp == NULL)
     {
-        printf("提示：未找到 %s，将按空候补队列处理。\n", WAITLIST_FILE);
         return;
     }
 
@@ -142,6 +141,22 @@ void initQueue(void)
 int isQueueEmpty(void)
 {
     return front == NULL;
+}
+
+int getWaitQueueCount(void)
+{
+    WaitNode *current;
+    int count = 0;
+
+    initQueue();
+    current = front;
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+
+    return count;
 }
 
 int enqueueWait(const char *name, const char *phone, const char *flightNo, int ticketNum)
@@ -236,19 +251,11 @@ void showWaitQueue(void)
     }
 }
 
-void autoBookFromQueue(const char *flightNo)
+void autoBookFromQueue(void)
 {
     Flight flights[MAX_FLIGHTS];
     int flightCount;
-    int flightIndex;
-    WaitNode *current;
-    WaitNode *previous = NULL;
     int bookedCount = 0;
-
-    if (flightNo == NULL)
-    {
-        return;
-    }
 
     initQueue();
     if (isQueueEmpty())
@@ -257,58 +264,43 @@ void autoBookFromQueue(const char *flightNo)
     }
 
     flightCount = loadFlights(flights, MAX_FLIGHTS);
-    flightIndex = findFlightIndexByNo(flights, flightCount, flightNo);
-    if (flightIndex < 0)
-    {
-        return;
-    }
 
-    current = front;
-    while (current != NULL)
+    while (front != NULL)
     {
-        if (strcmp(current->flightNo, flightNo) == 0 &&
-            flights[flightIndex].remainSeat >= current->ticketNum)
+        int flightIndex = findFlightIndexByNo(flights, flightCount, front->flightNo);
+
+        if (flightIndex < 0 || flights[flightIndex].remainSeat < front->ticketNum)
+        {
+            break;
+        }
+
         {
             Passenger passenger;
-            WaitNode *bookedNode = current;
+            WaitNode *bookedNode = front;
 
-            safeCopy(passenger.name, sizeof(passenger.name), current->name);
-            safeCopy(passenger.phone, sizeof(passenger.phone), current->phone);
-            safeCopy(passenger.flightNo, sizeof(passenger.flightNo), current->flightNo);
-            passenger.ticketNum = current->ticketNum;
+            generateOrderId(passenger.orderId, sizeof(passenger.orderId));
+            safeCopy(passenger.name, sizeof(passenger.name), front->name);
+            safeCopy(passenger.phone, sizeof(passenger.phone), front->phone);
+            safeCopy(passenger.flightNo, sizeof(passenger.flightNo), front->flightNo);
+            passenger.ticketNum = front->ticketNum;
 
             if (!appendPassenger(&passenger))
             {
-                previous = current;
-                current = current->next;
-                continue;
+                break;
             }
 
-            flights[flightIndex].remainSeat -= current->ticketNum;
-            bookedCount++;
-            printf("候补自动出票成功：%s %s %s %d 张。\n",
-                   passenger.name, passenger.phone, passenger.flightNo, passenger.ticketNum);
-
-            current = current->next;
-            if (previous == NULL)
+            flights[flightIndex].remainSeat -= front->ticketNum;
+            front = front->next;
+            if (front == NULL)
             {
-                front = current;
-            }
-            else
-            {
-                previous->next = current;
+                rear = NULL;
             }
 
-            if (bookedNode == rear)
-            {
-                rear = previous;
-            }
+            printf("候补自动出票成功：订单号 %s，%s %s %d 张。\n",
+                   passenger.orderId, passenger.name, passenger.flightNo, passenger.ticketNum);
+
             free(bookedNode);
-        }
-        else
-        {
-            previous = current;
-            current = current->next;
+            bookedCount++;
         }
     }
 

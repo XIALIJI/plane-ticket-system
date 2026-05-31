@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
+    <Filter Include="Source Files">
       <UniqueIdentifier>{3D2E2F28-1952-4D6A-A390-8CE29B43F82D}</UniqueIdentifier>
       <Extensions>c</Extensions>
     </Filter>
-    <Filter Include="头文件">
+    <Filter Include="Header Files">
       <UniqueIdentifier>{F6C49D99-D323-4F00-9B48-6C01724D215A}</UniqueIdentifier>
       <Extensions>h</Extensions>
     </Filter>
-    <Filter Include="数据文件">
+    <Filter Include="Data Files">
       <UniqueIdentifier>{B0A65763-F14D-4F4F-8B55-D4D5905A846B}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="admin.c"><Filter>源文件</Filter></ClCompile>
-    <ClCompile Include="file.c"><Filter>源文件</Filter></ClCompile>
-    <ClCompile Include="flight.c"><Filter>源文件</Filter></ClCompile>
-    <ClCompile Include="main.c"><Filter>源文件</Filter></ClCompile>
-    <ClCompile Include="passenger.c"><Filter>源文件</Filter></ClCompile>
-    <ClCompile Include="queue.c"><Filter>源文件</Filter></ClCompile>
+    <ClCompile Include="admin.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="file.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="flight.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="main.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="passenger.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="queue.c"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="user.c"><Filter>Source Files</Filter></ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="admin.h"><Filter>头文件</Filter></ClInclude>
-    <ClInclude Include="file.h"><Filter>头文件</Filter></ClInclude>
-    <ClInclude Include="flight.h"><Filter>头文件</Filter></ClInclude>
-    <ClInclude Include="passenger.h"><Filter>头文件</Filter></ClInclude>
-    <ClInclude Include="queue.h"><Filter>头文件</Filter></ClInclude>
+    <ClInclude Include="admin.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="file.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="flight.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="passenger.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="queue.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="user.h"><Filter>Header Files</Filter></ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="flight.txt"><Filter>数据文件</Filter></None>
-    <None Include="passenger.txt"><Filter>数据文件</Filter></None>
-    <None Include="waitlist.txt"><Filter>数据文件</Filter></None>
+    <None Include="flight.txt"><Filter>Data Files</Filter></None>
+    <None Include="passenger.txt"><Filter>Data Files</Filter></None>
+    <None Include="waitlist.txt"><Filter>Data Files</Filter></None>
+    <None Include="user.txt"><Filter>Data Files</Filter></None>
   </ItemGroup>
 </Project>

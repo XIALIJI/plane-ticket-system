@@ -107,6 +107,35 @@ int readInt(const char *prompt)
     }
 }
 
+float readFloat(const char *prompt)
+{
+    char buffer[64];
+    char *endPtr;
+    float value;
+
+    while (1)
+    {
+        readString(prompt, buffer, sizeof(buffer));
+        if (inputEnded)
+        {
+            return 0.0f;
+        }
+
+        value = (float)strtod(buffer, &endPtr);
+        while (*endPtr != '\0' && isspace((unsigned char)*endPtr))
+        {
+            endPtr++;
+        }
+
+        if (*endPtr == '\0')
+        {
+            return value;
+        }
+
+        printf("请输入合法数字。\n");
+    }
+}
+
 void waitEnter(void)
 {
     char buffer[8];
@@ -116,46 +145,85 @@ void waitEnter(void)
 
 static int parseFlightLine(const char *line, Flight *flight)
 {
+    int result;
+
     if (line == NULL || flight == NULL)
     {
         return 0;
     }
 
+    flight->price = 0.0f;
+
 #ifdef _MSC_VER
-    return sscanf_s(line, "%19s %49s %49s %19s %19s %19s %d %d",
-                    flight->flightNo, (unsigned)_countof(flight->flightNo),
-                    flight->startCity, (unsigned)_countof(flight->startCity),
-                    flight->endCity, (unsigned)_countof(flight->endCity),
-                    flight->date, (unsigned)_countof(flight->date),
-                    flight->startTime, (unsigned)_countof(flight->startTime),
-                    flight->arriveTime, (unsigned)_countof(flight->arriveTime),
-                    &flight->totalSeat, &flight->remainSeat) == 8;
+    result = sscanf_s(line, "%19s %49s %49s %19s %19s %19s %d %d %f",
+                      flight->flightNo, (unsigned)_countof(flight->flightNo),
+                      flight->startCity, (unsigned)_countof(flight->startCity),
+                      flight->endCity, (unsigned)_countof(flight->endCity),
+                      flight->date, (unsigned)_countof(flight->date),
+                      flight->startTime, (unsigned)_countof(flight->startTime),
+                      flight->arriveTime, (unsigned)_countof(flight->arriveTime),
+                      &flight->totalSeat, &flight->remainSeat, &flight->price);
 #else
-    return sscanf(line, "%19s %49s %49s %19s %19s %19s %d %d",
-                  flight->flightNo, flight->startCity, flight->endCity,
-                  flight->date, flight->startTime, flight->arriveTime,
-                  &flight->totalSeat, &flight->remainSeat) == 8;
+    result = sscanf(line, "%19s %49s %49s %19s %19s %19s %d %d %f",
+                    flight->flightNo, flight->startCity, flight->endCity,
+                    flight->date, flight->startTime, flight->arriveTime,
+                    &flight->totalSeat, &flight->remainSeat, &flight->price);
 #endif
+
+    if (result == 8)
+    {
+        flight->price = 0.0f;
+        return 1;
+    }
+
+    return result == 9;
 }
 
 static int parsePassengerLine(const char *line, Passenger *passenger)
 {
+    int result;
+
     if (line == NULL || passenger == NULL)
     {
         return 0;
     }
 
 #ifdef _MSC_VER
-    return sscanf_s(line, "%99s %29s %19s %d",
-                    passenger->name, (unsigned)_countof(passenger->name),
-                    passenger->phone, (unsigned)_countof(passenger->phone),
-                    passenger->flightNo, (unsigned)_countof(passenger->flightNo),
-                    &passenger->ticketNum) == 4;
+    result = sscanf_s(line, "%29s %99s %29s %19s %d",
+                      passenger->orderId, (unsigned)_countof(passenger->orderId),
+                      passenger->name, (unsigned)_countof(passenger->name),
+                      passenger->phone, (unsigned)_countof(passenger->phone),
+                      passenger->flightNo, (unsigned)_countof(passenger->flightNo),
+                      &passenger->ticketNum);
 #else
-    return sscanf(line, "%99s %29s %19s %d",
-                  passenger->name, passenger->phone, passenger->flightNo,
-                  &passenger->ticketNum) == 4;
+    result = sscanf(line, "%29s %99s %29s %19s %d",
+                    passenger->orderId, passenger->name, passenger->phone,
+                    passenger->flightNo, &passenger->ticketNum);
 #endif
+    if (result == 5)
+    {
+        return 1;
+    }
+
+#ifdef _MSC_VER
+    result = sscanf_s(line, "%99s %29s %19s %d",
+                      passenger->name, (unsigned)_countof(passenger->name),
+                      passenger->phone, (unsigned)_countof(passenger->phone),
+                      passenger->flightNo, (unsigned)_countof(passenger->flightNo),
+                      &passenger->ticketNum);
+#else
+    result = sscanf(line, "%99s %29s %19s %d",
+                    passenger->name, passenger->phone, passenger->flightNo,
+                    &passenger->ticketNum);
+#endif
+
+    if (result == 4)
+    {
+        safeCopy(passenger->orderId, sizeof(passenger->orderId), "OLDORDER");
+        return 1;
+    }
+
+    return 0;
 }
 
 int loadFlights(Flight flights[], int maxCount)
@@ -208,7 +276,7 @@ int saveFlights(const Flight flights[], int count)
 
     for (i = 0; i < count; i++)
     {
-        fprintf(fp, "%s %s %s %s %s %s %d %d\n",
+        fprintf(fp, "%s %s %s %s %s %s %d %d %.2f\n",
                 flights[i].flightNo,
                 flights[i].startCity,
                 flights[i].endCity,
@@ -216,7 +284,8 @@ int saveFlights(const Flight flights[], int count)
                 flights[i].startTime,
                 flights[i].arriveTime,
                 flights[i].totalSeat,
-                flights[i].remainSeat);
+                flights[i].remainSeat,
+                flights[i].price);
     }
 
     fclose(fp);
@@ -273,7 +342,8 @@ int savePassengers(const Passenger passengers[], int count)
 
     for (i = 0; i < count; i++)
     {
-        fprintf(fp, "%s %s %s %d\n",
+        fprintf(fp, "%s %s %s %s %d\n",
+                passengers[i].orderId,
                 passengers[i].name,
                 passengers[i].phone,
                 passengers[i].flightNo,
@@ -300,7 +370,8 @@ int appendPassenger(const Passenger *passenger)
         return 0;
     }
 
-    fprintf(fp, "%s %s %s %d\n",
+    fprintf(fp, "%s %s %s %s %d\n",
+            passenger->orderId,
             passenger->name,
             passenger->phone,
             passenger->flightNo,

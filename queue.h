@@ -18,9 +18,10 @@ int isQueueEmpty(void);
 void enqueue(void);
 void dequeue(void);
 void showWaitQueue(void);
-void autoBookFromQueue(const char *flightNo);
+void autoBookFromQueue(void);
 void clearQueue(void);
 
 int enqueueWait(const char *name, const char *phone, const char *flightNo, int ticketNum);
+int getWaitQueueCount(void);
 
 #endif

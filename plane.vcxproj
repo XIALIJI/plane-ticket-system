@@ -78,6 +78,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="passenger.c" />
     <ClCompile Include="queue.c" />
+    <ClCompile Include="user.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="admin.h" />
@@ -85,6 +86,7 @@
     <ClInclude Include="flight.h" />
     <ClInclude Include="passenger.h" />
     <ClInclude Include="queue.h" />
+    <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="flight.txt">
@@ -94,6 +96,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="waitlist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="user.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

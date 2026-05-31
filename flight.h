@@ -14,6 +14,7 @@ typedef struct
 
     int totalSeat;
     int remainSeat;
+    float price;
 
 } Flight;
 
@@ -23,6 +24,12 @@ void searchFlightByDestination(void);
 void addFlight(void);
 void deleteFlight(void);
 void modifyFlight(void);
+
+void sortFlightByNo(void);
+void sortFlightByRemainSeat(void);
+void sortFlightByPrice(void);
+void sortFlightByStartTime(void);
+void sortFlightMenu(void);
 
 int findFlightIndexByNo(Flight flights[], int count, const char *flightNo);
 void printFlightHeader(void);

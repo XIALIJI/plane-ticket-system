@@ -3,5 +3,6 @@
 
 int adminLogin(void);
 void adminMenu(void);
+void showStatistics(void);
 
 #endif

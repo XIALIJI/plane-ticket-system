@@ -26,9 +26,9 @@ int findFlightIndexByNo(Flight flights[], int count, const char *flightNo)
 
 void printFlightHeader(void)
 {
-    printf("%-12s %-12s %-12s %-14s %-10s %-10s %-8s %-8s\n",
-           "航班号", "出发地", "目的地", "日期", "起飞", "到达", "总票数", "余票");
-    printf("--------------------------------------------------------------------------------\n");
+    printf("%-12s %-12s %-12s %-14s %-10s %-10s %-8s %-8s %-10s\n",
+           "航班号", "出发地", "目的地", "日期", "起飞", "到达", "总票数", "余票", "票价");
+    printf("------------------------------------------------------------------------------------------\n");
 }
 
 void printFlight(const Flight *flight)
@@ -38,7 +38,7 @@ void printFlight(const Flight *flight)
         return;
     }
 
-    printf("%-12s %-12s %-12s %-14s %-10s %-10s %-8d %-8d\n",
+    printf("%-12s %-12s %-12s %-14s %-10s %-10s %-8d %-8d %-10.2f\n",
            flight->flightNo,
            flight->startCity,
            flight->endCity,
@@ -46,16 +46,14 @@ void printFlight(const Flight *flight)
            flight->startTime,
            flight->arriveTime,
            flight->totalSeat,
-           flight->remainSeat);
+           flight->remainSeat,
+           flight->price);
 }
 
-void showAllFlights(void)
+static void showFlightArray(Flight flights[], int count)
 {
-    Flight flights[MAX_FLIGHTS];
-    int count;
     int i;
 
-    count = loadFlights(flights, MAX_FLIGHTS);
     if (count == 0)
     {
         printf("暂无航班信息。\n");
@@ -67,6 +65,13 @@ void showAllFlights(void)
     {
         printFlight(&flights[i]);
     }
+}
+
+void showAllFlights(void)
+{
+    Flight flights[MAX_FLIGHTS];
+    int count = loadFlights(flights, MAX_FLIGHTS);
+    showFlightArray(flights, count);
 }
 
 void searchFlightByNo(void)
@@ -147,10 +152,11 @@ void addFlight(void)
     readString("请输入到达时间(HH:MM)：", flight.arriveTime, sizeof(flight.arriveTime));
     flight.totalSeat = readInt("请输入总座位数：");
     flight.remainSeat = readInt("请输入余票数：");
+    flight.price = readFloat("请输入票价：");
 
-    if (flight.totalSeat < 0 || flight.remainSeat < 0 || flight.remainSeat > flight.totalSeat)
+    if (flight.totalSeat < 0 || flight.remainSeat < 0 || flight.remainSeat > flight.totalSeat || flight.price < 0)
     {
-        printf("座位数据不合法，新增失败。\n");
+        printf("航班数据不合法，新增失败。\n");
         return;
     }
 
@@ -221,15 +227,122 @@ void modifyFlight(void)
     readString("请输入新的到达时间(HH:MM)：", flight->arriveTime, sizeof(flight->arriveTime));
     flight->totalSeat = readInt("请输入新的总座位数：");
     flight->remainSeat = readInt("请输入新的余票数：");
+    flight->price = readFloat("请输入新的票价：");
 
-    if (flight->totalSeat < 0 || flight->remainSeat < 0 || flight->remainSeat > flight->totalSeat)
+    if (flight->totalSeat < 0 || flight->remainSeat < 0 || flight->remainSeat > flight->totalSeat || flight->price < 0)
     {
-        printf("座位数据不合法，修改失败。\n");
+        printf("航班数据不合法，修改失败。\n");
         return;
     }
 
     if (saveFlights(flights, count))
     {
         printf("修改航班成功。\n");
+    }
+}
+
+static void bubbleSort(Flight flights[], int count, int sortType)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < count - 1; i++)
+    {
+        for (j = 0; j < count - 1 - i; j++)
+        {
+            int needSwap = 0;
+
+            if (sortType == 1 && strcmp(flights[j].flightNo, flights[j + 1].flightNo) > 0)
+            {
+                needSwap = 1;
+            }
+            else if (sortType == 2 && flights[j].remainSeat > flights[j + 1].remainSeat)
+            {
+                needSwap = 1;
+            }
+            else if (sortType == 3 && flights[j].price > flights[j + 1].price)
+            {
+                needSwap = 1;
+            }
+            else if (sortType == 4 && strcmp(flights[j].startTime, flights[j + 1].startTime) > 0)
+            {
+                needSwap = 1;
+            }
+
+            if (needSwap)
+            {
+                Flight temp = flights[j];
+                flights[j] = flights[j + 1];
+                flights[j + 1] = temp;
+            }
+        }
+    }
+}
+
+static void sortAndShow(int sortType)
+{
+    Flight flights[MAX_FLIGHTS];
+    int count = loadFlights(flights, MAX_FLIGHTS);
+
+    bubbleSort(flights, count, sortType);
+    showFlightArray(flights, count);
+}
+
+void sortFlightByNo(void)
+{
+    sortAndShow(1);
+}
+
+void sortFlightByRemainSeat(void)
+{
+    sortAndShow(2);
+}
+
+void sortFlightByPrice(void)
+{
+    sortAndShow(3);
+}
+
+void sortFlightByStartTime(void)
+{
+    sortAndShow(4);
+}
+
+void sortFlightMenu(void)
+{
+    int choice;
+
+    while (1)
+    {
+        printf("\n========================\n");
+        printf("航班排序\n");
+        printf("========================\n");
+        printf("1.按航班号排序\n");
+        printf("2.按余票排序\n");
+        printf("3.按票价排序\n");
+        printf("4.按起飞时间排序\n");
+        printf("0.返回\n");
+
+        choice = readInt("请选择：");
+        switch (choice)
+        {
+        case 1:
+            sortFlightByNo();
+            break;
+        case 2:
+            sortFlightByRemainSeat();
+            break;
+        case 3:
+            sortFlightByPrice();
+            break;
+        case 4:
+            sortFlightByStartTime();
+            break;
+        case 0:
+            return;
+        default:
+            printf("无效选择，请重新输入。\n");
+            break;
+        }
     }
 }

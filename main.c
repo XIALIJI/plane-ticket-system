@@ -11,11 +11,12 @@
 #include "flight.h"
 #include "passenger.h"
 #include "queue.h"
+#include "user.h"
 
 static void initConsole(void)
 {
 #ifdef _WIN32
-    system("chcp 65001 > nul");
+    system("cmd /c chcp 65001 > nul < nul");
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
     setlocale(LC_ALL, ".UTF-8");
@@ -24,10 +25,21 @@ static void initConsole(void)
 #endif
 }
 
-static void showMainMenu(void)
+static void showStartMenu(void)
 {
     printf("\n========================\n");
     printf("航空票务管理系统\n");
+    printf("========================\n");
+    printf("1.用户登录\n");
+    printf("2.用户注册\n");
+    printf("3.管理员登录\n");
+    printf("0.退出\n");
+}
+
+static void showUserMenu(void)
+{
+    printf("\n========================\n");
+    printf("用户功能菜单\n");
     printf("========================\n");
     printf("1.显示全部航班\n");
     printf("2.按航班号查询\n");
@@ -36,21 +48,16 @@ static void showMainMenu(void)
     printf("5.办理订票\n");
     printf("6.办理退票\n");
     printf("7.查看候补名单\n");
-    printf("8.管理员功能\n");
-    printf("0.退出系统\n");
+    printf("0.返回上级菜单\n");
 }
 
-int main(void)
+static void userMenu(void)
 {
     int choice;
 
-    initConsole();
-
-    initQueue();
-
     while (1)
     {
-        showMainMenu();
+        showUserMenu();
         choice = readInt("请选择：");
 
         switch (choice)
@@ -76,8 +83,43 @@ int main(void)
         case 7:
             showWaitQueue();
             break;
-        case 8:
-            adminMenu();
+        case 0:
+            return;
+        default:
+            printf("无效选择，请重新输入。\n");
+            break;
+        }
+    }
+}
+
+int main(void)
+{
+    int choice;
+
+    initConsole();
+    initQueue();
+
+    while (1)
+    {
+        showStartMenu();
+        choice = readInt("请选择：");
+
+        switch (choice)
+        {
+        case 1:
+            if (userLogin())
+            {
+                userMenu();
+            }
+            break;
+        case 2:
+            registerUser();
+            break;
+        case 3:
+            if (adminLogin())
+            {
+                adminMenu();
+            }
             break;
         case 0:
             clearQueue();

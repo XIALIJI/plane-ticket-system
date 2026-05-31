@@ -4,12 +4,14 @@
 #include "queue.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 static void printPassengerHeader(void)
 {
-    printf("%-16s %-16s %-12s %-8s\n", "姓名", "手机号", "航班号", "票数");
-    printf("--------------------------------------------------------\n");
+    printf("%-18s %-16s %-16s %-12s %-8s\n", "订单号", "姓名", "手机号", "航班号", "票数");
+    printf("--------------------------------------------------------------------------\n");
 }
 
 static void printPassenger(const Passenger *passenger)
@@ -19,11 +21,68 @@ static void printPassenger(const Passenger *passenger)
         return;
     }
 
-    printf("%-16s %-16s %-12s %-8d\n",
+    printf("%-18s %-16s %-16s %-12s %-8d\n",
+           passenger->orderId,
            passenger->name,
            passenger->phone,
            passenger->flightNo,
            passenger->ticketNum);
+}
+
+static void getTodayText(char *dateText, int dateTextSize)
+{
+    time_t now;
+    struct tm localTime;
+
+    if (dateText == NULL || dateTextSize <= 0)
+    {
+        return;
+    }
+
+    now = time(NULL);
+#ifdef _MSC_VER
+    localtime_s(&localTime, &now);
+#else
+    localTime = *localtime(&now);
+#endif
+
+    snprintf(dateText, (size_t)dateTextSize, "%04d%02d%02d",
+             localTime.tm_year + 1900,
+             localTime.tm_mon + 1,
+             localTime.tm_mday);
+}
+
+void generateOrderId(char *orderId, int orderIdSize)
+{
+    Passenger passengers[MAX_PASSENGERS];
+    char dateText[16];
+    char prefix[20];
+    int count;
+    int i;
+    int maxSerial = 0;
+
+    if (orderId == NULL || orderIdSize <= 0)
+    {
+        return;
+    }
+
+    getTodayText(dateText, sizeof(dateText));
+    snprintf(prefix, sizeof(prefix), "OD%s", dateText);
+
+    count = loadPassengers(passengers, MAX_PASSENGERS);
+    for (i = 0; i < count; i++)
+    {
+        if (strncmp(passengers[i].orderId, prefix, strlen(prefix)) == 0)
+        {
+            int serial = atoi(passengers[i].orderId + strlen(prefix));
+            if (serial > maxSerial)
+            {
+                maxSerial = serial;
+            }
+        }
+    }
+
+    snprintf(orderId, (size_t)orderIdSize, "%s%04d", prefix, maxSerial + 1);
 }
 
 void showPassengers(void)
@@ -52,7 +111,9 @@ void bookTicket(void)
     Passenger passenger;
     int flightCount;
     int index;
+    float totalAmount;
 
+    generateOrderId(passenger.orderId, sizeof(passenger.orderId));
     readString("请输入姓名：", passenger.name, sizeof(passenger.name));
     readString("请输入手机号：", passenger.phone, sizeof(passenger.phone));
     readString("请输入航班号：", passenger.flightNo, sizeof(passenger.flightNo));
@@ -97,14 +158,19 @@ void bookTicket(void)
         return;
     }
 
+    totalAmount = flights[index].price * passenger.ticketNum;
     printf("订票成功。\n");
+    printf("订单号：%s\n", passenger.orderId);
+    printf("票价：%.2f\n", flights[index].price);
+    printf("订票数量：%d\n", passenger.ticketNum);
+    printf("总金额：%.2f元\n", totalAmount);
 }
 
 void refundTicket(void)
 {
     Passenger passengers[MAX_PASSENGERS];
     Flight flights[MAX_FLIGHTS];
-    char phone[30];
+    char orderId[30];
     char refundedFlightNo[20];
     int passengerCount;
     int flightCount;
@@ -113,12 +179,12 @@ void refundTicket(void)
     int i;
     int refundNum;
 
-    readString("请输入退票手机号：", phone, sizeof(phone));
+    readString("请输入退票订单号：", orderId, sizeof(orderId));
     passengerCount = loadPassengers(passengers, MAX_PASSENGERS);
 
     for (i = 0; i < passengerCount; i++)
     {
-        if (strcmp(passengers[i].phone, phone) == 0)
+        if (strcmp(passengers[i].orderId, orderId) == 0)
         {
             passengerIndex = i;
             break;
@@ -127,7 +193,7 @@ void refundTicket(void)
 
     if (passengerIndex < 0)
     {
-        printf("未找到该手机号对应的订单。\n");
+        printf("未找到该订单号对应的订单。\n");
         return;
     }
 
@@ -159,5 +225,5 @@ void refundTicket(void)
     }
 
     printf("退票成功，已恢复余票 %d 张。\n", refundNum);
-    autoBookFromQueue(refundedFlightNo);
+    autoBookFromQueue();
 }
