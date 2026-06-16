@@ -1,9 +1,16 @@
-#include "flight.h"
+﻿#include "flight.h"
 #include "file.h"
 
 #include <stdio.h>
 #include <string.h>
 
+/*
+ * 函数名称：findFlightIndexByNo
+ * 函数功能：根据航班号查找航班下标。
+ * 参数说明：flights 为航班数组；count 为航班数量；flightNo 为目标航班号。
+ * 返回值：找到返回数组下标，未找到返回 -1。
+ * 实现说明：使用 strcmp 精确匹配航班号，供查询、修改、订票等功能复用。
+ */
 int findFlightIndexByNo(Flight flights[], int count, const char *flightNo)
 {
     int i;
@@ -24,14 +31,28 @@ int findFlightIndexByNo(Flight flights[], int count, const char *flightNo)
     return -1;
 }
 
-void printFlightHeader(void)
+/*
+ * 函数名称：printFlightHeader
+ * 函数功能：打印航班信息表头。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：与 printFlight 配合使用，使航班列表显示格式统一。
+ */
+void printFlightHeader(void)// 鎵撳嵃鑸彮淇℃伅琛ㄥご
 {
     printf("%-12s %-12s %-12s %-14s %-10s %-10s %-8s %-8s %-10s\n",
-           "航班号", "出发地", "目的地", "日期", "起飞", "到达", "总票数", "余票", "票价");
+           "鑸彮鍙?, "鍑哄彂鍦?, "鐩殑鍦?, "鏃ユ湡", "璧烽", "鍒拌揪", "鎬荤エ鏁?, "浣欑エ", "绁ㄤ环");
     printf("------------------------------------------------------------------------------------------\n");
 }
 
-void printFlight(const Flight *flight)
+/*
+ * 函数名称：printFlight
+ * 函数功能：打印单条航班信息。
+ * 参数说明：flight 为需要显示的航班指针。
+ * 返回值：无。
+ * 实现说明：函数内部先判断空指针，避免访问无效内存。
+ */
+void printFlight(const Flight* flight)// 鎵撳嵃鍗曟潯鑸彮淇℃伅
 {
     if (flight == NULL)
     {
@@ -50,13 +71,20 @@ void printFlight(const Flight *flight)
            flight->price);
 }
 
-static void showFlightArray(Flight flights[], int count)
+/*
+ * 函数名称：showFlightArray
+ * 函数功能：显示航班数组中的所有航班信息。
+ * 参数说明：flights 为航班数组；count 为航班数量。
+ * 返回值：无。
+ * 实现说明：无数据时输出提示，有数据时先打印表头再逐条打印。
+ */
+static void showFlightArray(Flight flights[], int count)// 鏄剧ず鑸彮淇℃伅鍒楄〃
 {
     int i;
 
     if (count == 0)
     {
-        printf("暂无航班信息。\n");
+        printf("鏆傛棤鑸彮淇℃伅銆俓n");
         return;
     }
 
@@ -67,27 +95,41 @@ static void showFlightArray(Flight flights[], int count)
     }
 }
 
-void showAllFlights(void)
+/*
+ * 函数名称：showAllFlights
+ * 函数功能：显示全部航班信息。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：先从文件加载航班数组，再调用 showFlightArray 统一显示。
+ */
+void showAllFlights(void)// 鏄剧ず鍏ㄩ儴鑸彮淇℃伅
 {
     Flight flights[MAX_FLIGHTS];
     int count = loadFlights(flights, MAX_FLIGHTS);
     showFlightArray(flights, count);
 }
 
-void searchFlightByNo(void)
+/*
+ * 函数名称：searchFlightByNo
+ * 函数功能：按航班号查询航班。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：读取用户输入的航班号，在航班数组中精确查找并显示结果。
+ */
+void searchFlightByNo(void)// 鏄剧ず鑸彮鍙锋煡璇㈢粨鏋?{
 {
     Flight flights[MAX_FLIGHTS];
     char flightNo[20];
     int count;
     int index;
 
-    readString("请输入航班号：", flightNo, sizeof(flightNo));
+    readString("璇疯緭鍏ヨ埅鐝彿锛?, flightNo, sizeof(flightNo));
     count = loadFlights(flights, MAX_FLIGHTS);
     index = findFlightIndexByNo(flights, count, flightNo);
 
     if (index < 0)
     {
-        printf("未找到航班号为 %s 的航班。\n", flightNo);
+        printf("鏈壘鍒拌埅鐝彿涓?%s 鐨勮埅鐝€俓n", flightNo);
         return;
     }
 
@@ -95,7 +137,14 @@ void searchFlightByNo(void)
     printFlight(&flights[index]);
 }
 
-void searchFlightByDestination(void)
+/*
+ * 函数名称：searchFlightByDestination
+ * 函数功能：按目的地查询航班。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：遍历所有航班，目的地完全匹配时输出该航班信息。
+ */
+void searchFlightByDestination(void)// 鏄剧ず鐩殑鍦版煡璇㈢粨鏋?{
 {
     Flight flights[MAX_FLIGHTS];
     char destination[50];
@@ -103,7 +152,7 @@ void searchFlightByDestination(void)
     int i;
     int found = 0;
 
-    readString("请输入目的地：", destination, sizeof(destination));
+    readString("璇疯緭鍏ョ洰鐨勫湴锛?, destination, sizeof(destination));
     count = loadFlights(flights, MAX_FLIGHTS);
 
     for (i = 0; i < count; i++)
@@ -121,11 +170,18 @@ void searchFlightByDestination(void)
 
     if (!found)
     {
-        printf("未找到目的地为 %s 的航班。\n", destination);
+        printf("鏈壘鍒扮洰鐨勫湴涓?%s 鐨勮埅鐝€俓n", destination);
     }
 }
 
-void addFlight(void)
+/*
+ * 函数名称：addFlight
+ * 函数功能：新增航班信息。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：先检查航班数量上限和航班号唯一性，再保存新增航班到文件。
+ */
+void addFlight(void)//鏂板鑸彮淇℃伅
 {
     Flight flights[MAX_FLIGHTS];
     Flight flight;
@@ -134,40 +190,47 @@ void addFlight(void)
     count = loadFlights(flights, MAX_FLIGHTS);
     if (count >= MAX_FLIGHTS)
     {
-        printf("航班数量已达上限，无法新增。\n");
+        printf("鑸彮鏁伴噺宸茶揪涓婇檺锛屾棤娉曟柊澧炪€俓n");
         return;
     }
 
-    readString("请输入航班号：", flight.flightNo, sizeof(flight.flightNo));
+    readString("璇疯緭鍏ヨ埅鐝彿锛?, flight.flightNo, sizeof(flight.flightNo));
     if (findFlightIndexByNo(flights, count, flight.flightNo) >= 0)
     {
-        printf("航班号已存在，新增失败。\n");
+        printf("鑸彮鍙峰凡瀛樺湪锛屾柊澧炲け璐ャ€俓n");
         return;
     }
 
-    readString("请输入出发地：", flight.startCity, sizeof(flight.startCity));
-    readString("请输入目的地：", flight.endCity, sizeof(flight.endCity));
-    readString("请输入日期(YYYY-MM-DD)：", flight.date, sizeof(flight.date));
-    readString("请输入起飞时间(HH:MM)：", flight.startTime, sizeof(flight.startTime));
-    readString("请输入到达时间(HH:MM)：", flight.arriveTime, sizeof(flight.arriveTime));
-    flight.totalSeat = readInt("请输入总座位数：");
-    flight.remainSeat = readInt("请输入余票数：");
-    flight.price = readFloat("请输入票价：");
+    readString("璇疯緭鍏ュ嚭鍙戝湴锛?, flight.startCity, sizeof(flight.startCity));
+    readString("璇疯緭鍏ョ洰鐨勫湴锛?, flight.endCity, sizeof(flight.endCity));
+    readString("璇疯緭鍏ユ棩鏈?YYYY-MM-DD)锛?, flight.date, sizeof(flight.date));
+    readString("璇疯緭鍏ヨ捣椋炴椂闂?HH:MM)锛?, flight.startTime, sizeof(flight.startTime));
+    readString("璇疯緭鍏ュ埌杈炬椂闂?HH:MM)锛?, flight.arriveTime, sizeof(flight.arriveTime));
+    flight.totalSeat = readInt("璇疯緭鍏ユ€诲骇浣嶆暟锛?);
+    flight.remainSeat = readInt("璇疯緭鍏ヤ綑绁ㄦ暟锛?);
+    flight.price = readFloat("璇疯緭鍏ョエ浠凤細");
 
     if (flight.totalSeat < 0 || flight.remainSeat < 0 || flight.remainSeat > flight.totalSeat || flight.price < 0)
     {
-        printf("航班数据不合法，新增失败。\n");
+        printf("鑸彮鏁版嵁涓嶅悎娉曪紝鏂板澶辫触銆俓n");
         return;
     }
 
     flights[count++] = flight;
     if (saveFlights(flights, count))
     {
-        printf("新增航班成功。\n");
+        printf("鏂板鑸彮鎴愬姛銆俓n");
     }
 }
 
-void deleteFlight(void)
+/*
+ * 函数名称：deleteFlight
+ * 函数功能：删除指定航班。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：找到目标航班后，通过数组元素前移覆盖实现删除。
+ */
+void deleteFlight(void)//鍒犻櫎鑸彮淇℃伅
 {
     Flight flights[MAX_FLIGHTS];
     char flightNo[20];
@@ -175,13 +238,13 @@ void deleteFlight(void)
     int index;
     int i;
 
-    readString("请输入要删除的航班号：", flightNo, sizeof(flightNo));
+    readString("璇疯緭鍏ヨ鍒犻櫎鐨勮埅鐝彿锛?, flightNo, sizeof(flightNo));
     count = loadFlights(flights, MAX_FLIGHTS);
     index = findFlightIndexByNo(flights, count, flightNo);
 
     if (index < 0)
     {
-        printf("航班不存在，删除失败。\n");
+        printf("鑸彮涓嶅瓨鍦紝鍒犻櫎澶辫触銆俓n");
         return;
     }
 
@@ -193,11 +256,18 @@ void deleteFlight(void)
 
     if (saveFlights(flights, count))
     {
-        printf("删除航班成功。\n");
+        printf("鍒犻櫎鑸彮鎴愬姛銆俓n");
     }
 }
 
-void modifyFlight(void)
+/*
+ * 函数名称：modifyFlight
+ * 函数功能：修改指定航班信息。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：按航班号定位原记录，重新读取各字段并覆盖保存。
+ */
+void modifyFlight(void)//淇敼鑸彮淇℃伅
 {
     Flight flights[MAX_FLIGHTS];
     char flightNo[20];
@@ -205,43 +275,50 @@ void modifyFlight(void)
     int index;
     Flight *flight;
 
-    readString("请输入要修改的航班号：", flightNo, sizeof(flightNo));
+    readString("璇疯緭鍏ヨ淇敼鐨勮埅鐝彿锛?, flightNo, sizeof(flightNo));
     count = loadFlights(flights, MAX_FLIGHTS);
     index = findFlightIndexByNo(flights, count, flightNo);
 
     if (index < 0)
     {
-        printf("航班不存在，修改失败。\n");
+        printf("鑸彮涓嶅瓨鍦紝淇敼澶辫触銆俓n");
         return;
     }
 
     flight = &flights[index];
-    printf("当前航班信息：\n");
+    printf("褰撳墠鑸彮淇℃伅锛歕n");
     printFlightHeader();
     printFlight(flight);
 
-    readString("请输入新的出发地：", flight->startCity, sizeof(flight->startCity));
-    readString("请输入新的目的地：", flight->endCity, sizeof(flight->endCity));
-    readString("请输入新的日期(YYYY-MM-DD)：", flight->date, sizeof(flight->date));
-    readString("请输入新的起飞时间(HH:MM)：", flight->startTime, sizeof(flight->startTime));
-    readString("请输入新的到达时间(HH:MM)：", flight->arriveTime, sizeof(flight->arriveTime));
-    flight->totalSeat = readInt("请输入新的总座位数：");
-    flight->remainSeat = readInt("请输入新的余票数：");
-    flight->price = readFloat("请输入新的票价：");
+    readString("璇疯緭鍏ユ柊鐨勫嚭鍙戝湴锛?, flight->startCity, sizeof(flight->startCity));
+    readString("璇疯緭鍏ユ柊鐨勭洰鐨勫湴锛?, flight->endCity, sizeof(flight->endCity));
+    readString("璇疯緭鍏ユ柊鐨勬棩鏈?YYYY-MM-DD)锛?, flight->date, sizeof(flight->date));
+    readString("璇疯緭鍏ユ柊鐨勮捣椋炴椂闂?HH:MM)锛?, flight->startTime, sizeof(flight->startTime));
+    readString("璇疯緭鍏ユ柊鐨勫埌杈炬椂闂?HH:MM)锛?, flight->arriveTime, sizeof(flight->arriveTime));
+    flight->totalSeat = readInt("璇疯緭鍏ユ柊鐨勬€诲骇浣嶆暟锛?);
+    flight->remainSeat = readInt("璇疯緭鍏ユ柊鐨勪綑绁ㄦ暟锛?);
+    flight->price = readFloat("璇疯緭鍏ユ柊鐨勭エ浠凤細");
 
     if (flight->totalSeat < 0 || flight->remainSeat < 0 || flight->remainSeat > flight->totalSeat || flight->price < 0)
     {
-        printf("航班数据不合法，修改失败。\n");
+        printf("鑸彮鏁版嵁涓嶅悎娉曪紝淇敼澶辫触銆俓n");
         return;
     }
 
     if (saveFlights(flights, count))
     {
-        printf("修改航班成功。\n");
+        printf("淇敼鑸彮鎴愬姛銆俓n");
     }
 }
 
-static void bubbleSort(Flight flights[], int count, int sortType)
+/*
+ * 函数名称：bubbleSort
+ * 函数功能：按照指定字段对航班数组进行冒泡排序。
+ * 参数说明：flights 为航班数组；count 为航班数量；sortType 为排序类型。
+ * 返回值：无。
+ * 实现说明：sortType 控制按航班号、余票、票价或起飞时间比较并交换。
+ */
+static void bubbleSort(Flight flights[], int count, int sortType)//鍐掓场鎺掑簭瀹炵幇锛屾牴鎹畇ortType閫夋嫨鎺掑簭渚濇嵁
 {
     int i;
     int j;
@@ -279,51 +356,93 @@ static void bubbleSort(Flight flights[], int count, int sortType)
     }
 }
 
-static void sortAndShow(int sortType)
+/*
+ * 函数名称：sortAndShow
+ * 函数功能：加载航班、排序并显示结果。
+ * 参数说明：sortType 为排序类型。
+ * 返回值：无。
+ * 实现说明：排序只影响当前显示顺序，不修改文件中的原始航班顺序。
+ */
+static void sortAndShow(int sortType)//鎺掑簭骞舵樉绀鸿埅鐝俊鎭?{
 {
-    Flight flights[MAX_FLIGHTS];
+	Flight flights[MAX_FLIGHTS];//鏍规嵁sortType閫夋嫨鎺掑簭渚濇嵁锛?-鑸彮鍙凤紝2-浣欑エ鏁帮紝3-绁ㄤ环锛?-璧烽鏃堕棿
     int count = loadFlights(flights, MAX_FLIGHTS);
 
     bubbleSort(flights, count, sortType);
     showFlightArray(flights, count);
 }
 
-void sortFlightByNo(void)
+/*
+ * 函数名称：sortFlightByNo
+ * 函数功能：按航班号排序并显示。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：调用 sortAndShow 并传入航班号排序类型。
+ */
+void sortFlightByNo(void)   //鎸夎埅鐝彿鎺掑簭
 {
     sortAndShow(1);
 }
 
-void sortFlightByRemainSeat(void)
+/*
+ * 函数名称：sortFlightByRemainSeat
+ * 函数功能：按余票数量排序并显示。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：调用 sortAndShow 并传入余票排序类型。
+ */
+void sortFlightByRemainSeat(void)      //鎸変綑绁ㄦ暟鎺掑簭
 {
     sortAndShow(2);
 }
 
-void sortFlightByPrice(void)
+/*
+ * 函数名称：sortFlightByPrice
+ * 函数功能：按票价排序并显示。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：调用 sortAndShow 并传入票价排序类型。
+ */
+void sortFlightByPrice(void)//鎸夌エ浠锋帓搴?{
 {
     sortAndShow(3);
 }
 
-void sortFlightByStartTime(void)
+/*
+ * 函数名称：sortFlightByStartTime
+ * 函数功能：按起飞时间排序并显示。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：调用 sortAndShow 并传入起飞时间排序类型。
+ */
+void sortFlightByStartTime(void)//鎸夎捣椋炴椂闂存帓搴?{
 {
     sortAndShow(4);
 }
 
-void sortFlightMenu(void)
+/*
+ * 函数名称：sortFlightMenu
+ * 函数功能：显示并处理航班排序菜单。
+ * 参数说明：无。
+ * 返回值：无。
+ * 实现说明：根据用户选择调用不同排序函数，输入 0 返回管理员菜单。
+ */
+void sortFlightMenu(void)//鏄剧ず鑸彮鎺掑簭鑿滃崟骞跺鐞嗙敤鎴烽€夋嫨
 {
     int choice;
 
     while (1)
     {
         printf("\n========================\n");
-        printf("航班排序\n");
+        printf("鑸彮鎺掑簭\n");
         printf("========================\n");
-        printf("1.按航班号排序\n");
-        printf("2.按余票排序\n");
-        printf("3.按票价排序\n");
-        printf("4.按起飞时间排序\n");
-        printf("0.返回\n");
+        printf("1.鎸夎埅鐝彿鎺掑簭\n");
+        printf("2.鎸変綑绁ㄦ帓搴廫n");
+        printf("3.鎸夌エ浠锋帓搴廫n");
+        printf("4.鎸夎捣椋炴椂闂存帓搴廫n");
+        printf("0.杩斿洖\n");
 
-        choice = readInt("请选择：");
+        choice = readInt("璇烽€夋嫨锛?);
         switch (choice)
         {
         case 1:
@@ -341,7 +460,7 @@ void sortFlightMenu(void)
         case 0:
             return;
         default:
-            printf("无效选择，请重新输入。\n");
+            printf("鏃犳晥閫夋嫨锛岃閲嶆柊杈撳叆銆俓n");
             break;
         }
     }

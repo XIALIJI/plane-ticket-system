@@ -4,6 +4,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plane", "plane.vcxproj", "{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plane_server", "plane_server.vcxproj", "{3C34D98C-8B29-4B08-A7C7-51E8D426A001}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plane_client", "plane_client.vcxproj", "{37F18EC0-79D8-4386-96F8-51E8D426A002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -14,6 +18,14 @@ Global
 		{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}.Debug|x64.Build.0 = Debug|x64
 		{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}.Release|x64.ActiveCfg = Release|x64
 		{8D2E615F-2F4C-4C77-A4D7-A30D4A8E8D4D}.Release|x64.Build.0 = Release|x64
+		{3C34D98C-8B29-4B08-A7C7-51E8D426A001}.Debug|x64.ActiveCfg = Debug|x64
+		{3C34D98C-8B29-4B08-A7C7-51E8D426A001}.Debug|x64.Build.0 = Debug|x64
+		{3C34D98C-8B29-4B08-A7C7-51E8D426A001}.Release|x64.ActiveCfg = Release|x64
+		{3C34D98C-8B29-4B08-A7C7-51E8D426A001}.Release|x64.Build.0 = Release|x64
+		{37F18EC0-79D8-4386-96F8-51E8D426A002}.Debug|x64.ActiveCfg = Debug|x64
+		{37F18EC0-79D8-4386-96F8-51E8D426A002}.Debug|x64.Build.0 = Debug|x64
+		{37F18EC0-79D8-4386-96F8-51E8D426A002}.Release|x64.ActiveCfg = Release|x64
+		{37F18EC0-79D8-4386-96F8-51E8D426A002}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

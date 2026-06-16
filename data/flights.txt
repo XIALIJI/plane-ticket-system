@@ -1,0 +1,5 @@
+CA1001|Beijing|Shanghai|2026-06-10|08:00|10:00|100|48|680.00|Normal
+CA1002|Shanghai|Zhuhai|2026-06-11|09:00|12:00|120|75|980.00|Normal
+CA1003|Shanghai|Chongqing|2026-06-12|09:30|12:20|120|75|980.00|Normal
+CA1004|Shanghai|Shenzhen|2026-06-13|10:00|12:15|120|75|880.00|Normal
+CA1005|Beijing|Guangzhou|2026-06-14|13:00|16:10|160|118|1280.00|Normal
